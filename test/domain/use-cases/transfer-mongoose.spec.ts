@@ -30,9 +30,7 @@ describe(TransferUseCase.name + " w/ Mongoose", () => {
   const { repository, useCase } = setup();
 
   before(async () => {
-    await mongoose.connect(
-      process.env.DATABASE_URL?.replace("test", "test-mongoose") as string
-    );
+    await mongoose.connect(process.env.MONGO_URL as string);
   });
 
   beforeEach(async () => {

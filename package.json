@@ -20,12 +20,20 @@
   "dependencies": {
     "@prisma/client": "4.0.0",
     "mongoose": "^6.4.4",
-    "prisma": "^4.0.0"
+    "npm-run-all": "^4.1.5",
+    "prisma": "^4.0.0",
+    "sequelize": "^6.21.2",
+    "sqlite3": "^5.0.8"
   },
   "scripts": {
-    "docker:mongo-rs": "docker run --rm -d -p 27017:27017 -h $(hostname) --name mongo mongo --replSet=rs && sleep 4 && docker exec mongo mongo --eval 'rs.initiate();'",
+    "docker:start:mariadb": "docker run --rm -d --name mariadb -e MYSQL_ROOT_PASSWORD=test -p 3306:3306 docker.io/library/mariadb",
+    "docker:start:mongo-rs": "docker run --rm -d -p 27017:27017 -h $(hostname) --name mongo mongo --replSet=rs && sleep 4 && docker exec mongo mongo --eval 'rs.initiate();'",
     "docker:drop:mongo-rs": "docker stop mongo",
-    "test:mongo": "yarn docker:mongo-rs && yarn test && yarn docker:drop:mongo-rs",
-    "test": "env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' env DATABASE_URL='mongodb://localhost:27017/test?replicaSet=rs' nyc mocha -r ts-node/register 'test/**/*.ts'"
+    "docker:drop:mariadb": "docker stop mariadb",
+    "docker:drop": "npm-run-all docker:drop:*",
+    "docker:start": "npm-run-all docker:start:*",
+    "setup:prisma": "prisma migrate deploy",
+    "test:db": "yarn docker:start && yarn setup:prisma && yarn test && yarn docker:drop",
+    "test": "env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' env MONGO_URL='mongodb://localhost:27017/testdb?replicaSet=rs' env DATABASE_URL='mysql://root:test@localhost:3306/testdb' nyc mocha -r ts-node/register 'test/**/*.ts'"
   }
 }

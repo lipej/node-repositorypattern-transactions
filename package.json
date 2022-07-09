@@ -16,7 +16,10 @@
     "ts-node": "^10.8.2",
     "typescript": "^4.7.4"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@prisma/client": "4.0.0",
+    "prisma": "^4.0.0"
+  },
   "scripts": {
     "test": "env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' mocha -r ts-node/register 'test/**/*.ts'"
   }

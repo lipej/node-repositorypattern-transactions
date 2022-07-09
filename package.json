@@ -32,7 +32,7 @@
     "docker:drop:mariadb": "docker stop mariadb",
     "docker:drop": "npm-run-all docker:drop:*",
     "docker:start": "npm-run-all docker:start:*",
-    "setup:prisma": "prisma migrate deploy",
+    "setup:prisma": "env DATABASE_URL='mysql://root:test@localhost:3306/testdb' prisma migrate deploy",
     "test:db": "yarn docker:start && yarn setup:prisma && yarn test && yarn docker:drop",
     "test": "env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' env MONGO_URL='mongodb://localhost:27017/testdb?replicaSet=rs' env DATABASE_URL='mysql://root:test@localhost:3306/testdb' nyc mocha -r ts-node/register 'test/**/*.ts'"
   }

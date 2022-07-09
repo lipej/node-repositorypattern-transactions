@@ -22,6 +22,9 @@
     "prisma": "^4.0.0"
   },
   "scripts": {
-    "test": "env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' mocha -r ts-node/register 'test/**/*.ts'"
+    "docker:mongo-rs": "docker run --rm -d -p 27017:27017 -h $(hostname) --name mongo mongo --replSet=rs && sleep 4 && docker exec mongo mongo --eval 'rs.initiate();'",
+    "docker:drop:mongo-rs": "docker stop mongo",
+    "test:mongo": "yarn docker:mongo-rs && yarn test && yarn docker:drop:mongo-rs",
+    "test": "env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' env DATABASE_URL='mongodb://localhost:27017/test?replicaSet=rs' mocha -r ts-node/register 'test/**/*.ts'"
   }
 }

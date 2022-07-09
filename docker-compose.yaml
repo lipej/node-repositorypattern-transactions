@@ -1,0 +1,14 @@
+version: '3.8'
+services:
+  mongo:
+    hostname: $HOST
+    container_name: mongo_container
+    image: mongo:5.0.3
+    volumes:
+      - ./test-db.d
+    expose:
+      - 27017
+    ports:
+      - "27017:27017"
+    restart: always
+    command: ["--replSet", "test", "--bind_ip_all"]

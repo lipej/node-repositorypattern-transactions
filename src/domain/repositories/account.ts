@@ -1,7 +1,13 @@
 import { Account } from "../entities/account";
 
 export interface IAccountRepository {
-  create: (account: Account) => Promise<Account>;
-  increments: (to: string, amount: number) => Promise<Account>
-  decrements: (from: string, amount: number) => Promise<Account>
+  create: (account: Account, session?: unknown) => Promise<Account>;
+  increments: (
+    data: { to: string; amount: number },
+    session?: unknown
+  ) => Promise<Account>;
+  decrements: (
+    data: { from: string; amount: number },
+    session?: unknown
+  ) => Promise<Account>;
 }

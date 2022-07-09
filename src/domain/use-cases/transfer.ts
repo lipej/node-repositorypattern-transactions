@@ -1,20 +1,17 @@
-import { Account } from "../entities/account";
 import { IAccountRepository } from "../repositories/account";
 import { ITransactionService } from "../services/transaction";
 
-type OperationResult = { code: number; data: Record<string, Account> };
-
 type Params = {
-  transaction: ITransactionService<unknown>;
+  transaction: ITransactionService;
   repository: IAccountRepository;
 };
 
 export class TransferUseCase {
-  private readonly transaction: ITransactionService<OperationResult>;
+  private readonly transaction: ITransactionService;
   private readonly repository: IAccountRepository;
 
   constructor({ transaction, repository }: Params) {
-    this.transaction = transaction as ITransactionService<OperationResult>;
+    this.transaction = transaction as ITransactionService;
     this.repository = repository;
   }
 

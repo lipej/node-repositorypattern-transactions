@@ -1,3 +1,3 @@
-export interface ITransactionService {
-  run: (ctx: (session: unknown) => Promise<void>) => Promise<void>;
+export interface ITransactionService<T> {
+  run: (ctx: (session: unknown) => Promise<T>) => Promise<T>;
 }

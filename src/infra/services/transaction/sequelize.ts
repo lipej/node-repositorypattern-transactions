@@ -13,7 +13,7 @@ export class SequelizeTransaction<T> implements ITransactionService {
       })
       .catch(async (e) => {
         await t.rollback();
-        Logger.error("Database Tra nsaction Exception", e.message);
+        Logger.error("Database Transaction Exception", e.message);
         throw e;
       });
   }

@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client";
+import Logger from "../../../configs/logger";
 import { ITransactionService } from "../../../domain/services/transaction";
 
 export class PrismaTransaction<T> implements ITransactionService {
@@ -6,7 +7,7 @@ export class PrismaTransaction<T> implements ITransactionService {
   async run<T>(ctx: (session: unknown) => Promise<T>): Promise<T> {
     return await this.prisma.$transaction(async (prisma) => {
       return await ctx(prisma).catch((e) => {
-        console.error('Got Exception in Database Transaction: ' + e.message)
+        Logger.error("Database Transaction Exception", e.message);
         throw e;
       });
     });

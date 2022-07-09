@@ -24,8 +24,8 @@ export class Account {
     return this._balance;
   }
 
-  set balance(balance: number) {
-    if (this._balance + balance < 0) throw new NegativeBalanceException(this.email)
-    this._balance =+ balance;
+  set balance(amount: number) {
+    if (this._balance + (amount) < 0) throw new NegativeBalanceException(this.email)
+    this._balance += (amount);
   }
 }

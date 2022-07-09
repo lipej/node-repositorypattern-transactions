@@ -30,7 +30,7 @@ const setup = () => {
 describe(TransferUseCase.name + " w/ Prisma", () => {
   const { repository, useCase, client } = setup();
 
-  before(async () => {
+  beforeEach(async () => {
     const from = new Account({ email: "from@bank.local", name: "John" });
     const to = new Account({ email: "to@bank.local", name: "Keny" });
 
@@ -64,7 +64,37 @@ describe(TransferUseCase.name + " w/ Prisma", () => {
     await expect(promise).to.be.rejected;
   });
 
-  after(async () => {
-    await client.account.deleteMany();
+  it('should got an error when "to" account was not found and should not debit "from"', async () => {
+    const promise = useCase.execute({
+      from: "from@bank.local",
+      to: "toto@bank.local",
+      amount: 50,
+    });
+
+    await expect(promise).to.be.rejected;
+
+    const from = await client.account.findUnique({
+      where: { email: "from@bank.local" },
+    });
+
+    expect(from?.balance).to.deep.equal(200);
   });
+
+  it('should got an error when "from" account was not found and should not credit "to"', async () => {
+    const promise = useCase.execute({
+      from: "fromfrom@bank.local",
+      to: "to@bank.local",
+      amount: 50,
+    });
+
+    await expect(promise).to.be.rejected;
+
+    const to = await client.account.findUnique({
+      where: { email: "to@bank.local" },
+    });
+
+    expect(to?.balance).to.deep.equal(0);
+  });
+
+  afterEach(async () => await client.account.deleteMany());
 });

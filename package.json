@@ -13,6 +13,7 @@
     "chai": "^4.3.6",
     "chai-as-promised": "^7.1.1",
     "mocha": "^10.0.0",
+    "nyc": "^15.1.0",
     "ts-node": "^10.8.2",
     "typescript": "^4.7.4"
   },
@@ -25,6 +26,6 @@
     "docker:mongo-rs": "docker run --rm -d -p 27017:27017 -h $(hostname) --name mongo mongo --replSet=rs && sleep 4 && docker exec mongo mongo --eval 'rs.initiate();'",
     "docker:drop:mongo-rs": "docker stop mongo",
     "test:mongo": "yarn docker:mongo-rs && yarn test && yarn docker:drop:mongo-rs",
-    "test": "env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' env DATABASE_URL='mongodb://localhost:27017/test?replicaSet=rs' mocha -r ts-node/register 'test/**/*.ts'"
+    "test": "env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' env DATABASE_URL='mongodb://localhost:27017/test?replicaSet=rs' nyc mocha -r ts-node/register 'test/**/*.ts'"
   }
 }

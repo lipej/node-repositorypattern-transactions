@@ -18,6 +18,7 @@
   },
   "dependencies": {
     "@prisma/client": "4.0.0",
+    "mongoose": "^6.4.4",
     "prisma": "^4.0.0"
   },
   "scripts": {

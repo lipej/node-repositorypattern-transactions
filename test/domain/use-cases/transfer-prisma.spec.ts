@@ -54,7 +54,7 @@ describe(TransferUseCase.name + " w/ Prisma", () => {
     expect(result.data.to.balance).to.deep.equal(100.5);
   });
 
-  it("should got an error when from account has not balance to transfer", async () => {
+  it('should got an error when "from" account has not balance to transfer', async () => {
     const promise = useCase.execute({
       from: "from@bank.local",
       to: "to@bank.local",

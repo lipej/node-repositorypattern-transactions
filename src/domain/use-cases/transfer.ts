@@ -1,5 +1,5 @@
-import { IAccountRepository } from "../repositories/account";
-import { ITransactionService } from "../services/transaction";
+import { IAccountRepository } from '../repositories/account'
+import { ITransactionService } from '../services/transaction'
 
 type Params = {
   transaction: ITransactionService;
@@ -7,25 +7,26 @@ type Params = {
 };
 
 export class TransferUseCase {
-  private readonly transaction: ITransactionService;
-  private readonly repository: IAccountRepository;
+	private readonly transaction: ITransactionService
 
-  constructor({ transaction, repository }: Params) {
-    this.transaction = transaction as ITransactionService;
-    this.repository = repository;
-  }
+	private readonly repository: IAccountRepository
 
-  async execute(data: { from: string; to: string; amount: number }) {
-    const result = await this.transaction.run(async (session: unknown) => {
-      const from = await this.repository.decrements(data, session);
-      const to = await this.repository.increments(data, session);
+	constructor({ transaction, repository }: Params) {
+		this.transaction = transaction as ITransactionService
+		this.repository = repository
+	}
 
-      return {
-        code: 2,
-        data: { from, to },
-      };
-    });
+	async execute(data: { from: string; to: string; amount: number }) {
+		const result = await this.transaction.run(async (session: unknown) => {
+			const from = await this.repository.decrements(data, session)
+			const to = await this.repository.increments(data, session)
 
-    return result;
-  }
+			return {
+				code: 2,
+				data: { from, to },
+			}
+		})
+
+		return result
+	}
 }

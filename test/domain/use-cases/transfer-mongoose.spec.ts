@@ -39,8 +39,8 @@ describe(TransferUseCase.name + " w/ Mongoose", () => {
 
     from.balance = 200;
 
-    await repository.create(from);
-    await repository.create(to);
+    await repository.create(from, undefined);
+    await repository.create(to, undefined);
   });
 
   it("should transfer accounts balance", async () => {

@@ -10,8 +10,14 @@
     "@types/chai-as-promised": "^7.1.5",
     "@types/mocha": "^9.1.1",
     "@types/node": "^18.0.3",
+    "@typescript-eslint/eslint-plugin": "^5.30.5",
+    "@typescript-eslint/parser": "^5.30.5",
     "chai": "^4.3.6",
     "chai-as-promised": "^7.1.1",
+    "eslint": "^8.19.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-import-resolver-typescript": "^3.2.5",
+    "eslint-plugin-import": "^2.26.0",
     "mocha": "^10.0.0",
     "nyc": "^15.1.0",
     "ts-node": "^10.8.2",
@@ -34,6 +40,7 @@
     "docker:start": "npm-run-all docker:start:*",
     "setup:prisma": "env DATABASE_URL='mysql://root:test@localhost:3306/testdb' prisma migrate deploy",
     "test:db": "yarn docker:start && yarn setup:prisma && yarn test && yarn docker:drop",
-    "test": "env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' env MONGO_URL='mongodb://localhost:27017/testdb?replicaSet=rs' env DATABASE_URL='mysql://root:test@localhost:3306/testdb' nyc mocha -r ts-node/register 'test/**/*.ts'"
+    "test": "env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' env MONGO_URL='mongodb://localhost:27017/testdb?replicaSet=rs' env DATABASE_URL='mysql://root:test@localhost:3306/testdb' nyc mocha -r ts-node/register 'test/**/*.ts'",
+    "lint": "eslint src --ext ts"
   }
 }

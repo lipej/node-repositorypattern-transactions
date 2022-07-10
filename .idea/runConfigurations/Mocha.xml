@@ -1,0 +1,46 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Mocha" type="mocha-javascript-test-runner">
+    <node-interpreter>project</node-interpreter>
+    <node-options />
+    <mocha-package>$PROJECT_DIR$/node_modules/mocha</mocha-package>
+    <working-directory>$PROJECT_DIR$</working-directory>
+    <pass-parent-env>true</pass-parent-env>
+    <envs>
+      <env name="DATABASE_URL" value="mysql://root:test@localhost:3306/testdb" />
+      <env name="MONGO_URL" value="mongodb://localhost:27017/testdb?replicaSet=rs" />
+    </envs>
+    <ui>bdd</ui>
+    <extra-mocha-options>-require ts-node/register/transpile-only</extra-mocha-options>
+    <test-kind>PATTERN</test-kind>
+    <test-pattern>test/**/*.ts</test-pattern>
+    <method v="2">
+      <option name="NpmBeforeRunTask" enabled="true">
+        <package-json value="$PROJECT_DIR$/package.json" />
+        <command value="run" />
+        <scripts>
+          <script value="docker:drop" />
+        </scripts>
+        <node-interpreter value="project" />
+        <envs />
+      </option>
+      <option name="NpmBeforeRunTask" enabled="true">
+        <package-json value="$PROJECT_DIR$/package.json" />
+        <command value="run" />
+        <scripts>
+          <script value="docker:start" />
+        </scripts>
+        <node-interpreter value="project" />
+        <envs />
+      </option>
+      <option name="NpmBeforeRunTask" enabled="true">
+        <package-json value="$PROJECT_DIR$/package.json" />
+        <command value="run" />
+        <scripts>
+          <script value="setup:prisma" />
+        </scripts>
+        <node-interpreter value="project" />
+        <envs />
+      </option>
+    </method>
+  </configuration>
+</component>
